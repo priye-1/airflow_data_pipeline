@@ -1,6 +1,8 @@
 sudo apt-get update
 sudo apt install python3-pip
-sudo pip install apache-airflow
-sudo pip install Scrapy==2.9.0
-sudo pip install s3fs==2023.5.0
-sudo pip install botocore==1.29.140
+sudo apt install git
+sudo cd airflow
+sudo python -m venv.venv
+sudo python source .venv/bin/activate
+sudo pip install -r requirements.txt
+sudo python airflow standalone

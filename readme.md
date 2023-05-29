@@ -1,4 +1,4 @@
-# Data Pipeline Ochestration using AIRFLOW, AWS, and Snowflake
+# Data Pipeline Ochestration using Airflow, AWS, and Snowflake
 Introducing a Data Pipeline Project that integrates Airflow for Data Orchestration <br>
 
 ### Technologies used
@@ -21,33 +21,35 @@ Introducing a Data Pipeline Project that integrates Airflow for Data Orchestrati
 Data was scraped from <a href="https://rewardsforjustice.net/index/?jsf=jet-engine:rewards-grid&tax=crime-category:1070%2C1071%2C1073%2C1072%2C1074">this website </a> using Scrapy.
 The website does not provide a public API, hence it was reverse engineered to get the endpoint. Postman was then used to analyze endpoint <br><br>
 
-### Development Process
-1. Created EC2 Instance (AWS Linux AMI 2) to run python consumer file and host kafka <br>
+### Getting Started
+1. Create EC2 Instance (AWS Ubuntu Server) with at least 4gb RAM as requested by airflow - preferable t3.medium.<br>
 <img src='readme_images/instance.png'><br>
-
-2. Created a snowflakes account that runs on aws, created database, staging environment for incoming files on snowflake, table and pipe to copy data from stage to snowflakes table. data pipelines can leverage Snowpipe to continously load micro-batches of data into tables for automated tasks.
-<br><br>
     
-2. Installed Airflow and other libraries on ec2 Instance, and started airflow server<br>
+2. Installed Airflow and other libraries on ec2 Instance. Use commands <a href="https://github.com/priye-1/airflow_data_pipeline/blob/master/ubuntu_commands.sh">here</a> to install dependencies and start airflow server. Clone dags from this repository into your ubuntu directory using git to access scraper and dag code. our airflow server could be accessed using this url format - `http://<public dns address >:8080 `<br>
 <img src='readme_images/airflow.png'><br>
 
-3. Created S3 Bucket and IAM role to enable access to s3 from any instance <br>
-<img src='readme_images/s3'><br>
+3. Create a snowflakes account <a href="https://signup.snowflake.com/">here</a> , also create database, staging environment for incoming files on snowflake, table and pipe to copy data from stage to snowflakes table. data pipelines can leverage Snowpipe to continously load micro-batches of data into tables for automated tasks. Follow commands <a href="https://github.com/priye-1/airflow_data_pipeline/blob/master/snowflakes_queries.sql">here</a> to create database, tables, etc.
+<br><br>
 
-4. Set up AWS SQS for all bucket create operations<br> To enable the bucket to notify Snowpipe when new data arrives. This can be done by executing the query “desc pipe <snowpipe_name>;”, copying the notification_channel(ARN) value from the query results, and pasting it into the AWS SQS.
+3. Create S3 Bucket and IAM role to enable access to s3 from any instance <br>
+<img src='readme_images/s3.png'><br>
+
+4. Set up AWS SQS for all bucket create operations<br> To enable the bucket to notify Snowpipe when new data arrives. This can be done by executing the query “show pipes;” in snowflakes worksheet, copying the notification_channel(ARN) value from the newly created pipe, and pasting it into the AWS SQS.
 <img src='readme_images/event.png'><br>
 
-5. Access Snowflake to preview data, with time the number of rows increases if airflow task is set to run on a schedule.<br>
+5. Trigger dag manually from the UI and access Snowflake worksheet to preview data, with time the number of rows increases if airflow task is set to run on a schedule.<br>
 <img src='readme_images/snowflakes.png'>
 <br>
+<img src='readme_images/pipeline.png'>
+<br><br>
 
 #### Pipeline Flow
 start Airflow server-> Trigger data crawler Dag -> Crawler starts -> loads data into s3 ->   snowpipe loads data into table from s3 <br><br>
 
 #### Necessary Files
-1. Ubuntu commands for Airflow setup can be found <a href="">here</a>
-2. Airflow and scrapy code can be found  <a href="">here</a> This should run in your environment if set up correctly
-3. Snowflake queries can be found <a href="">here</a>
+1. Ubuntu commands for Airflow setup can be found <a href="https://github.com/priye-1/airflow_data_pipeline/blob/master/ubuntu_commands.sh">here</a>
+2. Airflow and scrapy code can be found  <a href="https://github.com/priye-1/airflow_data_pipeline/tree/master/dags">here</a> This should run in your environment if set up correctly
+3. Snowflake queries can be found <a href="https://github.com/priye-1/airflow_data_pipeline/blob/master/snowflakes_queries.sql">here</a>
 
 
 ### References
