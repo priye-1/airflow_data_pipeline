@@ -41,7 +41,7 @@ The website does not provide a public API, hence it was reverse engineered to ge
 <img src='readme_images/pipeline.png'>
 <br>
 <img src='readme_images/snowflakes.png'>
-<br><br>
+<br>
 
 #### Pipeline Flow
 start Airflow server-> Trigger data crawler Dag -> Crawler starts -> loads data into s3 ->   snowpipe loads data into table from s3 <br><br>
