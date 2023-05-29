@@ -38,9 +38,9 @@ The website does not provide a public API, hence it was reverse engineered to ge
 <img src='readme_images/event.png'><br><br>
 
 6. Trigger dag manually from the UI and access Snowflake worksheet to preview data, with time the number of rows increases if airflow task is set to run on a schedule.<br>
-<img src='readme_images/snowflakes.png'>
-<br>
 <img src='readme_images/pipeline.png'>
+<br>
+<img src='readme_images/snowflakes.png'>
 <br><br>
 
 #### Pipeline Flow
